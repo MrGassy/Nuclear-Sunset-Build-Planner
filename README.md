@@ -18,23 +18,10 @@ Welcome to the ultimate character architect for \*\*Tale of Two Wastelands\*\*. 
 
 \* \*\*Data Integrity:\*\* Local save/load functionality via .JSON export—no cloud tracking, no data leaks.
 
-
-
-\## 💾 Usage
-
-1\. Open `index.html` in any modern browser.
-
-2\. Select your starting region and difficulty mode.
-
-3\. Allocate SPECIAL and Tags.
-
-4\. Export your build to save your progress locally.
-
-
-
 ---
 
 \*\*Created and Maintained by Gassy.\*\*
 
 \*Special thanks to the data architects at \[NuclearSunset.com](https://nuclearsunset.com/): DarkSolarLegend, OrgasmicSneeze, DoktorAkcel, Lime, and FinalCatalyst.\*
+
 
