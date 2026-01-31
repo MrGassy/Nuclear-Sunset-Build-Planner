@@ -8,7 +8,6 @@
             --pip-color: #28ff28; 
             --pip-bg: #050f05; 
             --pip-border: #28ff28; 
-            --warning-gold: #ffce20; 
             --danger-red: #ff4444; 
             --font-main: 'Courier New', Courier, monospace;
         }
@@ -18,364 +17,366 @@
         
         body.mode-hc { 
             --pip-color: var(--danger-red); 
-            --pip-border: #800; 
-            --pip-bg: #000;
-            background-color: #000; 
+            --pip-border: #800; --pip-bg: #000; background-color: #000;
+            animation: warningPulse 6s infinite ease-in-out;
+            overflow: hidden;
         }
-        body.mode-hc header { border-color: var(--danger-red); box-shadow: 0 0 20px #f00; }
+
+        @keyframes warningPulse {
+            0%, 100% { box-shadow: inset 0 0 50px rgba(255, 0, 0, 0); }
+            50% { box-shadow: inset 0 0 80px rgba(255, 0, 0, 0.15); }
+        }
+
+        /* FORCE GLOBAL CAPITALIZATION */
+        * { text-transform: uppercase !important; }
 
         body { background-color: #0a0a0a; color: var(--pip-color); font-family: var(--font-main); margin: 0; overflow: hidden; height: 100vh; font-size: 13px; }
-        input, button, select, textarea, span, div, a { font-family: var(--font-main) !important; text-transform: uppercase; }
-        a { color: var(--pip-color); text-decoration: underline; cursor: pointer; }
+        input, button, select, textarea { font-family: var(--font-main) !important; }
+        select option { background: #000; color: var(--pip-color); }
 
-        .wrapper { display: grid; grid-template-columns: 340px 1fr 320px; grid-template-rows: 125px 1fr; height: 100vh; gap: 10px; padding: 10px; box-sizing: border-box; }
+        .wrapper { display: grid; grid-template-columns: 380px 1fr 360px; grid-template-rows: auto 1fr; height: 100vh; gap: 15px; padding: 15px; box-sizing: border-box; }
         
-        header { 
-            grid-column: 1 / span 3; display: flex; flex-direction: column; justify-content: center; 
-            border: 2px solid var(--pip-color); padding: 8px 15px; background: var(--pip-bg); 
-            position: relative;
-        }
+        header { grid-column: 1 / span 3; border: 2px solid var(--pip-color); padding: 15px; background: var(--pip-bg); }
+        .hc-alert-bar { display: none; justify-content: center; border: 2px solid var(--danger-red); background: rgba(128, 0, 0, 0.3); padding: 6px; margin-bottom: 10px; animation: blink 1s infinite; font-weight: bold; }
+        @keyframes blink { 50% { opacity: 0.5; } }
+
+        .header-controls { display: flex; justify-content: space-between; align-items: center; gap: 40px; }
+        .os-title { font-weight: bold; font-size: 1.5rem; letter-spacing: 2px; flex-shrink: 0; }
         
-        .header-top { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
-        .sysadmin-note { font-size: 0.7rem; color: #fff; background: #800; padding: 3px 8px; margin-top: 4px; display: inline-block; border: 1px solid var(--danger-red); font-weight: bold; }
-
-        .os-title { font-weight: bold; font-size: 1.2rem; letter-spacing: 2px; margin-top: 2px; }
-        .subroutine { font-size: 0.8rem; color: var(--danger-red); animation: blink 0.5s infinite; font-weight: bold; border: 1px solid var(--danger-red); padding: 3px 10px; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } }
-
-        .header-controls { display: flex; gap: 15px; margin-top: 8px; font-size: 0.75rem; }
+        .settings-block { display: flex; gap: 20px; align-items: center; flex-grow: 1; justify-content: flex-end; }
         .toggle-group { display: flex; border: 1px solid var(--pip-color); }
-        .toggle-group button { background: none; border: none; color: var(--pip-color); padding: 4px 10px; cursor: pointer; font-size: 0.7rem; }
-        .toggle-group button.active { background: var(--pip-color); color: black; }
+        .toggle-group button { background: none; border: none; color: var(--pip-color); padding: 6px 12px; cursor: pointer; font-size: 0.7rem; }
+        .toggle-group button.active { background: var(--pip-color) !important; color: black !important; }
 
-        section { border: 2px solid var(--pip-border); background: var(--pip-bg); display: flex; flex-direction: column; padding: 12px; overflow: hidden; }
+        section { border: 2px solid var(--pip-border); background: var(--pip-bg); padding: 18px; overflow: hidden; display: flex; flex-direction: column; }
+        .scroll-v { overflow-y: auto; flex-grow: 1; padding-right: 5px; }
         
-        .special-btn { background: none; border: 1px solid var(--pip-color); color: var(--pip-color); width: 28px; height: 28px; cursor: pointer; font-weight: bold; }
-        .special-btn:hover:not(:disabled) { background: var(--pip-color); color: black; }
-        .special-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-
-        .grid-tidy { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-        .grid-item { display: flex; align-items: center; gap: 6px; padding: 6px; border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); font-size: 0.75rem; }
-        .grid-item.tagged { background: var(--pip-color); color: black; font-weight: bold; }
-
-        .dual-container { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: 100%; }
-        .dual-col { display: flex; flex-direction: column; }
-        .dual-row { display: grid; grid-template-columns: 30px 1fr; gap: 5px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; }
-        .dual-header { padding: 6px; background: var(--pip-color); color: black; font-weight: bold; font-size: 0.75rem; text-align: center; }
+        .quest-header-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.1); color: var(--pip-color); margin: 15px 0 10px; padding: 6px 12px; font-weight: bold; border: 1px solid var(--pip-border); transition: all 0.3s ease; }
+        .quest-header-row.completed { background: var(--pip-color); color: black; box-shadow: 0 0 15px var(--pip-color); }
+        .quest-header-row h2 { background: none; color: inherit; margin: 0; padding: 0; font-size: 0.8rem; border: none; text-align: left; }
         
-        .prog-row { display: grid; grid-template-columns: 25px 40px 1fr 1fr; gap: 4px; padding: 3px 0; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: center; }
-        .prog-header { display: grid; grid-template-columns: 25px 40px 1fr 1fr; padding: 6px; background: var(--pip-color); color: black; font-weight: bold; font-size: 0.6rem; }
-
-        .tag-p { color: black; background: var(--pip-color); font-size: 0.5rem; font-weight: bold; text-align: center; padding: 2px; }
-        .tag-t { color: black; background: var(--warning-gold); font-size: 0.5rem; font-weight: bold; text-align: center; padding: 2px; }
-
-        .gear-card { border: 1px solid rgba(255,255,255,0.1); padding: 8px; margin-bottom: 10px; background: rgba(0,0,0,0.3); position: relative; }
-        .gear-card input { margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.15); width: 100%; box-sizing: border-box; }
-        .gear-card input:focus { border-bottom: 1px solid var(--pip-color); outline: none; }
-
-        h2 { background: var(--pip-color); color: black; font-size: 0.8rem; text-align: center; margin: 8px 0; padding: 3px; font-weight: bold; }
-        .scroll-v { overflow-y: auto; flex-grow: 1; scrollbar-width: thin; scrollbar-color: var(--pip-color) transparent; }
-        input[type="text"] { background: transparent; border: none; color: #fff; font-size: 0.75rem; padding: 2px; }
+        h2 { background: var(--pip-color); color: black; font-size: 0.8rem; text-align: center; margin: 15px 0 10px; padding: 4px; font-weight: bold; }
         
+        .special-row { display: grid; grid-template-columns: 1fr 100px; align-items: center; margin-bottom: 6px; }
+        .special-controls { display: grid; grid-template-columns: 30px 40px 30px; align-items: center; text-align: center; }
+        .special-btn { background: none; border: 1px solid var(--pip-color); color: var(--pip-color); width: 28px; height: 28px; cursor: pointer; }
+        
+        .grid-tidy { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+        .grid-item { display: flex; align-items: center; gap: 8px; padding: 5px; border: 1px solid rgba(255,255,255,0.05); font-size: 0.7rem; }
+        .locked { opacity: 0.3; pointer-events: none; }
+
         .tab-nav { display: flex; gap: 5px; margin-bottom: 10px; }
-        .tab-nav button { flex: 1; padding: 8px; background: rgba(255,255,255,0.05); color: var(--pip-color); border: 1px solid var(--pip-border); cursor: pointer; font-size: 0.7rem; }
+        .tab-nav button { flex: 1; padding: 8px; background: rgba(255,255,255,0.05); color: var(--pip-color); border: 1px solid var(--pip-border); cursor: pointer; font-size: 0.7rem; font-weight: bold; }
         .tab-nav button.active { background: var(--pip-color); color: black; }
 
-        .action-btn { height: 35px; background: none; border: 1px solid var(--pip-color); color: var(--pip-color); cursor: pointer; font-size: 0.7rem; font-weight: bold; }
-        .action-btn:hover:not(:disabled) { background: var(--pip-color); color: black; }
-        .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .danger-btn { border-color: var(--danger-red); color: var(--danger-red); margin-top: 5px; }
+        .ov-card { border: 1px solid var(--pip-border); padding: 10px; background: rgba(255,255,255,0.02); margin-bottom: 10px; }
+        .ov-sub { color: var(--pip-color); font-weight: bold; border-bottom: 1px solid #333; margin-bottom: 5px; font-size: 0.75rem; display: block; }
+        .ov-entry { font-size: 0.7rem; padding: 2px 0; display: flex; justify-content: space-between; }
 
-        .credits-box { font-size: 0.65rem; border: 1px solid rgba(255,255,255,0.1); padding: 8px; line-height: 1.4; margin-top: 10px; }
+        .prog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .prog-row { display: flex; flex-direction: column; margin-bottom: 5px; background: rgba(255,255,255,0.03); border-left: 2px solid var(--pip-color); position: relative; }
+        .lvl-tag { background: rgba(255,255,255,0.08); padding: 4px 8px; color: var(--pip-color); font-weight: bold; font-size: 0.65rem; }
+        .prog-row input { background: transparent; border: none; color: #fff; padding: 4px 8px; font-size: 0.7rem; }
+
+        .gear-card { border: 1px solid rgba(255,255,255,0.1); padding: 10px; margin-bottom: 10px; background: rgba(255,255,255,0.02); position: relative; }
+        .gear-card input, .gear-card select { width: 100%; background: transparent; border: none; border-bottom: 1px solid #444; color: var(--pip-color); margin-bottom: 5px; font-size: 0.7rem; }
+
+        .action-btn { width: 100%; height: 35px; background: none; border: 1px solid var(--pip-color); color: var(--pip-color); cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+        .sticky-note { display: none; background: #ffff88; color: #000; padding: 10px; transform: rotate(-1.5deg); border: 1px solid #ccc; font-size: 0.65rem; margin-bottom: 10px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); font-weight: bold; text-transform: none !important; }
+        .credits-box { font-size: 0.7rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 10px; }
+        #user-notes { flex: 1; background: rgba(0,0,0,0.4); color: #fff; border: 1px solid var(--pip-border); padding: 12px; font-size: 0.75rem; resize: none; }
     </style>
 </head>
-<body class="theme-cw">
+<body class="theme-cw" oninput="updateAll()">
 
 <div class="wrapper">
-    <header id="main-header">
-        <div class="header-top">
-            <div>
-                <div class="file-path">GASSY:/PROJECTS/NUCLEAR_SUNSET/<span id="os-status">AUTHORIZED_USER</span></div>
-                <div id="sysadmin-note" class="sysadmin-note" style="display:none;">FEEDBACK TO SYSADMIN: <b>FINALCATALYST</b></div>
-            </div>
-            <span id="hc-warning" class="subroutine" style="display:none;">SYS_OVERRIDE_ACTIVE</span>
-        </div>
-        <div class="os-title">NUCLEAR_SUNSET.EXE // TTW_EDITION</div>
+    <header>
+        <div class="hc-alert-bar" id="hc-banner">HARDERCORE_OVERRIDE_ACTIVE</div>
         <div class="header-controls">
-            <div style="display:flex; align-items:center; gap:8px;">REGION:
-                <div class="toggle-group">
-                    <button id="btn-cw" class="active" onclick="setOrigin('CW')">CAPITAL</button>
-                    <button id="btn-mw" onclick="setOrigin('MW')">MOJAVE</button>
-                </div>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px;">MODE:
-                <div class="toggle-group">
-                    <button id="m-std" class="active" onclick="setMode('std')">STANDARD</button>
-                    <button id="m-hc" onclick="setMode('hc')">HARDERCORE</button>
-                </div>
+            <div class="os-title">NUCLEAR_SUNSET.EXE // TTW_EDITION</div>
+            <div class="settings-block">
+                <div class="toggle-group"><button id="btn-cw" class="active" onclick="setOrigin('CW')">CAPITAL</button><button id="btn-mw" onclick="setOrigin('MW')">MOJAVE</button></div>
+                <div class="toggle-group"><button id="m-std" class="active" onclick="setMode('std')">STANDARD</button><button id="m-hc" onclick="setMode('hc')">HARDERCORE</button></div>
+                <button onclick="purgeMemory()" style="color:red; background:none; border:1px solid red; padding:5px 10px; cursor:pointer; font-size:0.65rem;">PURGE</button>
             </div>
         </div>
     </header>
 
     <section>
         <div class="scroll-v">
-            <h2>Identity</h2>
-            <input type="text" id="char-name" placeholder="SUBJECT_ID">
-            <h2>S.P.E.C.I.A.L.</h2>
-            <div style="text-align:center; font-size:0.8rem; margin-bottom:8px;">POOL: <span id="pool-count">5</span></div>
+            <h2>IDENTITY</h2>
+            <input type="text" id="char-name" placeholder="SUBJECT_NAME..." style="width:100%; background:transparent; border:none; border-bottom:1px solid var(--pip-color); color:white; font-size:1.1rem; margin-bottom:15px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2>S.P.E.C.I.A.L.</h2>
+                <div style="font-size:0.7rem;">PTS: <span id="pts-left">0</span></div>
+            </div>
             <div id="special-list"></div>
-            <h2>Tags (<span id="tag-count">0</span>/3)</h2>
+            <h2>TAGS (MAX 3)</h2>
             <div id="tag-area" class="grid-tidy"></div>
-            <h2>Initial Traits</h2>
+            <h2 id="trait-header">INITIAL TRAITS</h2>
             <div id="trait-list"></div>
-            <button id="add-trait-btn" class="action-btn" style="width:100%; margin-top:5px;" onclick="addStartingTrait()">+ TRAIT</button>
+            <button id="add-trait-btn" class="action-btn" onclick="addTrait()">+ ADD TRAIT</button>
         </div>
     </section>
 
     <section>
         <div class="tab-nav">
-            <button onclick="showTab('prog')" id="tab-btn-prog" class="active">Progression</button>
-            <button onclick="showTab('gear')" id="tab-btn-gear">Loadout</button>
-            <button onclick="showTab('coll')" id="tab-btn-coll">Collectibles</button>
+            <button onclick="showTab('ov')" id="tab-btn-ov" class="active">OVERVIEW</button>
+            <button onclick="showTab('prog')" id="tab-btn-prog">PROGRESSION</button>
+            <button onclick="showTab('gear')" id="tab-btn-gear">LOADOUT</button>
+            <button onclick="showTab('quests')" id="tab-btn-quests">QUESTS</button>
+            <button onclick="showTab('coll')" id="tab-btn-coll">COLLECTIBLES</button>
         </div>
 
-        <div id="tab-prog" class="tab-content scroll-v" style="height:100%;">
-            <div class="dual-container">
-                <div class="dual-col">
-                    <div class="prog-header"><div>LV</div><div>TYPE</div><div>NAME</div><div>REQ</div></div>
-                    <div id="prog-left"></div>
+        <div id="tab-ov" class="tab-content scroll-v">
+            <div id="ov-name" style="font-size:1.5rem; border-bottom:2px solid var(--pip-color); padding-bottom:5px; margin-bottom:10px;">NO_ID</div>
+            <div id="ov-spec" style="display:flex; justify-content:space-between; text-align:center; margin-bottom:15px;"></div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div>
+                    <div class="ov-card"><span class="ov-sub">TAGS</span><div id="ov-tags"></div></div>
+                    <div class="ov-card"><span class="ov-sub">TRAITS</span><div id="ov-traits"></div></div>
+                    <div class="ov-card"><span class="ov-sub">GEAR_LIST</span><div id="ov-gear"></div></div>
                 </div>
-                <div class="dual-col">
-                    <div class="prog-header"><div>LV</div><div>TYPE</div><div>NAME</div><div>REQ</div></div>
-                    <div id="prog-right"></div>
-                </div>
+                <div class="ov-card"><span class="ov-sub">PERK_EVOLUTION</span><div id="ov-perks"></div></div>
             </div>
+        </div>
+
+        <div id="tab-prog" class="tab-content scroll-v" style="display:none;">
+            <div id="prog-list" class="prog-grid"></div>
+            <h2>EXTRA REWARDS</h2>
+            <div id="extra-perk-list" class="prog-grid"></div>
+            <button class="action-btn" onclick="addExtraPerk()">+ ADD EXTRA PERK</button>
         </div>
 
         <div id="tab-gear" class="tab-content scroll-v" style="display:none;">
-            <div class="dual-container">
-                <div class="dual-col">
-                    <h2>Weapons</h2>
-                    <div id="weapon-list"></div>
-                    <button class="action-btn" onclick="addWeapon()">+ ADD WEAPON</button>
-                </div>
-                <div class="dual-col">
-                    <h2>Apparel</h2>
-                    <div id="armor-list"></div>
-                    <button class="action-btn" onclick="addArmor()">+ ADD ARMOR</button>
-                </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+                <div><h2>WEAPONS</h2><div id="weapon-list"></div><button class="action-btn" onclick="addWeapon()">+ WEAPON</button></div>
+                <div><h2>APPAREL</h2><div id="armor-list"></div><button class="action-btn" onclick="addArmor()">+ APPAREL</button></div>
             </div>
         </div>
 
-        <div id="tab-coll" class="tab-content scroll-v" style="display:none;">
-            <div id="cw-coll" class="dual-container">
-                <div class="dual-col">
-                    <div class="dual-header">S.P.E.C.I.A.L. BOBBLEHEADS</div>
-                    <div id="b-special-grid"></div>
-                </div>
-                <div class="dual-col">
-                    <div class="dual-header">SKILL BOBBLEHEADS</div>
-                    <div id="b-skill-grid"></div>
-                </div>
-            </div>
-            <div id="mw-coll" style="display:none;" class="dual-container">
-                <div class="dual-col">
-                    <div class="dual-header">MOJAVE SNOWGLOBES</div>
-                    <div id="s-grid-left"></div>
-                </div>
-                <div class="dual-col">
-                    <div class="dual-header">REGION ASSETS</div>
-                    <div id="s-grid-right"></div>
-                </div>
-            </div>
-        </div>
+        <div id="tab-quests" class="tab-content scroll-v" style="display:none;"><div id="quest-list-container"></div></div>
+        <div id="tab-coll" class="tab-content scroll-v" style="display:none;"><div id="coll-list"></div></div>
     </section>
 
     <section>
-        <h2>Terminal</h2>
-        <textarea id="term-log" style="flex:1; background:black; color:var(--pip-color); border:1px solid var(--pip-border); padding:8px; resize:none; font-size: 0.8rem;"></textarea>
+        <h2 style="margin-top:0;">DWELLER_NOTES.LOG</h2>
+        <div style="display:flex; gap:5px; margin-bottom:10px;">
+            <button class="action-btn" style="margin-bottom:0; font-size:0.65rem;" onclick="exportJSON()">💾 SAVE_JSON</button>
+            <button class="action-btn" style="margin-bottom:0; font-size:0.65rem;" onclick="document.getElementById('import-file').click()">📂 LOAD_JSON</button>
+            <input type="file" id="import-file" style="display:none" onchange="importJSON(event)">
+        </div>
+        <textarea id="user-notes" placeholder="--- INPUT LOG DATA ---"></textarea>
+        <div id="sync-status" style="font-size:0.6rem; text-align:right; opacity:0.6; margin-top:5px;">SYSTEM_SYNCED</div>
         
         <div class="credits-box">
-            <div style="font-weight:bold; color:var(--pip-color); border-bottom:1px solid; margin-bottom:4px;">CREDITS & DATA</div>
-            SPECIAL THANKS TO THE CREATORS AT <a href="https://nuclearsunset.com/" target="_blank">NUCLEARSUNSET.COM</a>:<br>
-            DARKSOLARLEGEND, ORGASMICSNEEZE, DOKTORAKCEL, LIME, AND FINALCATALYST.
-        </div>
-
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px; margin-top:5px; align-items: end;">
-            <div style="font-size: 0.6rem; opacity: 0.8;">CREATED AND MAINTAINED BY GASSY</div>
-            <div style="display:flex; gap:5px;">
-                <button class="action-btn" style="flex:1" onclick="saveBuild()">💾 SAVE</button>
-                <button class="action-btn" style="flex:1" onclick="document.getElementById('load-trigger').click()">📂 LOAD</button>
-            </div>
-            <input type="file" id="load-trigger" style="display:none;" onchange="loadBuild(event)">
-            <button class="action-btn danger-btn" style="grid-column: 1/span 2;" onclick="systemWipe()">☢ SYSTEM_WIPE</button>
+            <div class="sticky-note" id="sysop-note">!! DO NOT DELETE !!<br>FinalCatalyst is the Sysop. If the server hangs again, only they have the decryption keys. - (A panicked programmer)</div>
+            <b>SOURCE: <a href="https://nuclearsunset.com" target="_blank" style="color:inherit;">NUCLEARSUNSET.COM</a></b><br>
+            TEAM: DARKSOLARLEGEND, ORGASMICSNEEZE, DOKTORAKCEL, LIME, FINALCATALYST.
+            <div style="font-size: 0.65rem; border-top:1px dotted var(--pip-color); margin-top:5px; padding-top:4px;"><b>CREATED AND MAINTAINED BY GASSY</b></div>
         </div>
     </section>
 </div>
 
 <script>
     let mode = 'std', origin = 'CW', special = { STR: 5, PER: 5, END: 5, CHA: 5, INT: 5, AGI: 5, LCK: 5 };
-    const fullSkills = ["Barter", "Energy Weapons", "Explosives", "Guns", "Lockpick", "Medicine", "Melee Weapons", "Repair", "Science", "Sneak", "Speech", "Survival", "Unarmed"];
-    const bhSpecial = ["Strength", "Perception", "Endurance", "Charisma", "Intelligence", "Agility", "Luck"];
-    const bhSkills = ["Barter", "Energy Weapons", "Explosives", "Guns", "Lockpick", "Medicine", "Melee Weapons", "Repair", "Science", "Sneak", "Speech", "Unarmed"];
-    const sg = ["Goodsprings", "Hoover Dam", "Mormon Fort", "Mt. Charleston", "Nellis", "The Strip", "Test Site"];
+    const sKeys = ["STR", "PER", "END", "CHA", "INT", "AGI", "LCK"];
+    const skills = ["BARTER", "BIG GUNS", "ENERGY WEAPONS", "EXPLOSIVES", "GUNS", "LOCKPICK", "MEDICINE", "MELEE WEAPONS", "REPAIR", "SCIENCE", "SNEAK", "SPEECH", "SURVIVAL", "UNARMED"];
 
-    function setMode(m) {
-        mode = m;
-        document.body.classList.toggle('mode-hc', m === 'hc');
-        document.getElementById('hc-warning').style.display = (m === 'hc') ? 'inline' : 'none';
-        document.getElementById('sysadmin-note').style.display = (m === 'hc') ? 'inline-block' : 'none';
-        document.getElementById('os-status').innerText = (m === 'hc') ? 'OVERRIDE_ACTIVE' : 'AUTHORIZED_USER';
-        document.getElementById('m-std').className = (m === 'std') ? 'active' : '';
-        document.getElementById('m-hc').className = (m === 'hc') ? 'active' : '';
-        checkTraitBtn();
-        renderProgression();
-        updateUI();
-    }
-
-    function setOrigin(o) {
-        origin = o;
-        if(mode !== 'hc') document.body.className = (o === 'CW' ? 'theme-cw' : 'theme-mw');
-        document.getElementById('btn-cw').className = (o === 'CW') ? 'active' : '';
-        document.getElementById('btn-mw').className = (o === 'MW') ? 'active' : '';
-        document.getElementById('cw-coll').style.display = (o === 'CW') ? 'grid' : 'none';
-        document.getElementById('mw-coll').style.display = (o === 'MW') ? 'grid' : 'none';
-    }
-
-    function updateUI() {
-        const limit = (mode === 'std') ? 40 : 37;
-        const used = Object.values(special).reduce((a, b) => a + b, 0);
-        document.getElementById('pool-count').innerText = limit - used;
-        document.getElementById('special-list').innerHTML = Object.keys(special).map(s => `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px;">
-                <span style="font-weight:bold;">${s}</span>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <button class="special-btn" onclick="mod('${s}',-1)">-</button>
-                    <span style="width:20px; text-align:center; font-weight:bold;">${special[s]}</span>
-                    <button class="special-btn" onclick="mod('${s}',1)">+</button>
-                </div>
-            </div>`).join('');
-
-        const tagArea = document.getElementById('tag-area');
-        if (tagArea.innerHTML === "") {
-            tagArea.innerHTML = fullSkills.map(s => `<div class="grid-item">
-                <input type="checkbox" onchange="handleSkill(this)"><span>${s}</span>
-            </div>`).join('');
+    const questsData = {
+        'CW': { 
+            'MAIN QUEST': ["ESCAPE!", "FOLLOWING IN HIS FOOTSTEPS", "GALAXY NEWS RADIO", "SCIENTIFIC PURSUITS", "TRANQUILITY LANE", "THE WATERS OF LIFE", "PICKING UP THE TRAIL", "RESCUE FROM PARADISE", "FINDING THE GARDEN OF EDEN", "THE AMERICAN DREAM", "TAKE IT BACK!", "PROJECT IMPURITY"],
+            'SIDE QUEST': ["AGATHA'S SONG", "BIG TROUBLE IN BIG TOWN", "BLOOD TIES", "HEAD OF STATE", "OASIS", "REILLY'S RANGERS", "STEALING INDEPENDENCE", "STRICTLY BUSINESS", "TENPENNY TOWER", "THE NUKA COLA CHALLENGE", "THE POWER OF THE ATOM", "THE REPLICATED MAN", "THE SUPERHUMAN GAMBIT", "WASTELAND SURVIVAL GUIDE", "THOSE!", "TROUBLE ON THE HOMEFRONT", "YOU GOTTA SHOOT 'EM IN THE HEAD"],
+            'DLC: OPERATION ANCHORAGE': ["AIDING THE OUTCASTS", "THE GUNS OF ANCHORAGE", "PAVING THE WAY", "OPERATION: ANCHORAGE!"],
+            'DLC: BROKEN STEEL': ["DEATH FROM ABOVE", "SHOCK VALUE", "WHO DARES WINS", "HOLY WATER", "PROTECTING THE WATER WAY", "THE AMAZING AQUA CURA!"],
+            'DLC: THE PITT': ["INTO THE PITT", "UNSAFE WORKING CONDITIONS", "FREE LABOR"],
+            'DLC: POINT LOOKOUT': ["THE LOCAL FLAVOR", "WALKING WITH SPIRITS", "HEARING VOICES", "THOUGHT CONTROL", "A MEETING OF THE MINDS"],
+            'DLC: MOTHERSHIP ZETA': ["NOT OF THIS WORLD", "AMONG THE STARS", "THIS GALAXY AIN'T BIG ENOUGH..."]
+        },
+        'MW': { 
+            'MAIN QUEST (GENERAL)': ["AIN'T THAT A KICK IN THE HEAD", "BACK IN THE SADDLE", "BY A CAMPFIRE ON THE TRAIL", "THEY WENT THAT-A-WAY", "RING-A-DING-DING!"],
+            'MAIN QUEST (INDEPENDENT/YES MAN)': ["WILD CARD: ACE IN THE HOLE", "WILD CARD: CHANGE IN MANAGEMENT", "WILD CARD: YOU AND WHAT ARMY?", "WILD CARD: FINISHING TOUCHES", "YOU'LL KNOW IT WHEN IT HAPPENS", "NO GODS, NO MASTERS"],
+            'MAIN QUEST (MR. HOUSE)': ["THE HOUSE ALWAYS WINS I", "THE HOUSE ALWAYS WINS II", "THE HOUSE ALWAYS WINS III", "THE HOUSE ALWAYS WINS IV", "THE HOUSE ALWAYS WINS V", "THE HOUSE ALWAYS WINS VI", "THE HOUSE ALWAYS WINS VII", "THE HOUSE ALWAYS WINS VIII", "ALL OR NOTHING"],
+            'MAIN QUEST (NCR)': ["THINGS THAT GO BOOM", "KINGS' GAMBIT", "FOR THE REPUBLIC, PART 2", "YOU'LL KNOW IT WHEN IT HAPPENS", "EUREKA!"],
+            'MAIN QUEST (LEGION)': ["RENDER UNTO CEASAR", "ET TUMOR, BRUTE?", "ARIZONA KILLER", "VENI, VIDI, VICI"],
+            'SIDE QUEST': ["A VALUEABLE LESSON", "ABA DABA HONEYMOON", "ANT MISBEHAVIN'", "ANYWHERE I WANDER", "BACK IN YOUR OWN BACKYARD", "BEYOND THE BEEF", "BIRDS OF A FEATHER", "BITTER SPRINGS INFIRMARY BLUES", "BOOTED", "BOULDER CITY SHOWDOWN", "BYE BYE LOVE", "CAN YOU FIND IT IN YOUR HEART?", "CLASSIC INSPIRATION", "CLIMB EV'RY MOUNTAIN", "COME FLY WITH ME", "CRAZY, CRAZY, CRAZY", "CRY ME A RIVER", "DEBT COLLECTOR", "DON'T MAKE A BEGGAR OF ME", "EYE FOR AN EYE", "EYESIGHT TO THE BLIND", "FLAG OF OUR FOUL-UPS", "G.I. BLUES", "GHOST TOWN GUNFIGHT", "GUESS WHO I SAW TODAY", "HARD LUCK BLUES", "HIGH TIMES", "HOW LITTLE WE KNOW", "I DON'T HURT ANYMORE", "I PUT A SPELL ON YOU", "KEEP YOUR EYES ON THE PRIZE", "LEFT MY HEART", "MEDICAL MYSTERY", "MY KIND OF TOWN", "NO, NOT MUCH", "OH MY PAPA", "ONE FOR MY BABY", "PHEEBLE WILL", "PRESSING MATTERS", "RESTORING HOPE", "RETURN TO SENDER", "SOMEONE TO WATCH OVER ME", "STILL IN THE DARK", "SUNSHINE BOOGIE", "TALENT POOL", "THAT LUCKY OLD SUN", "THE COYOTES", "THE LEGEND OF THE STAR", "THE MOON COMES OVER THE TOWER", "THE WHITE WASH", "THERE STANDS THE GRASS", "THREE-CARD BOUNTY", "UNFRIENDLY PERSUASION", "VOLARE!", "WANG DANG ATOMIC TANGO", "WE WILL ALL GO TOGETHER", "WHEEL OF FORTUNE", "WHY CAN'T WE BE FRIENDS?", "YOU CAN DEPEND ON ME", "YOUNG HEARTS"],
+            'COMPANION QUESTLINES': ["ED-E MY LOVE", "FOR AULD LANG SYNE", "HEARTACHE BY THE NUMBER", "I COULD MAKE YOU CARE", "I FORGOT TO REMEMBER TO FORGET", "LILY AND LEO", "NOTHIN' BUT A HOUND DOG", "ONE FOR MY BABY"],
+            'DLC: DEAD MONEY': ["SIERRA MADRE GRAND OPENING!", "FIND COLLAR 8: DOG", "FIND COLLAR 12: CHRISTINE", "FIND COLLAR 14: DEAN DOMINO", "FIRES IN THE SKY", "STRIKE UP THE BAND", "TRIGGER THE GALA EVENT", "CURTAIN CALL AT THE TAMPICO", "LAST LUXURIES", "HEIST OF THE CENTURIES", "DEPARTING PARADISE"],
+            'DLC: HONEST HEARTS': ["HAPPY TRAILS EXPEDITION", "ARRIVAL AT ZION", "ROADSIDE ATTRACTION", "GONE FISHIN'", "TOURIST TRAP", "DELIVERER OF SORROWS", "THE GRAND STAIRCASE", "THE ADVANCE SCOUTS", "THE TREACHEROUS ROAD", "RIVER MONSTERS", "GATHERING STORMS", "CRUSH THE WHITE LEGS"],
+            'DLC: OLD WORLD BLUES': ["MIDNIGHT SCIENCE FICTION FEATURE!", "WELCOME TO THE BIG EMPTY", "ALL MY FRIENDS HAVE OFF SWITCHES", "X-2: STRANGE TRANSMISSIONS!", "X-8: HIGH SCHOOL HORROR!", "X-13: ATTACK OF THE INFILTRATOR!", "OLD WORLD BLUES", "PROJECT X-13"],
+            'DLC: LONESOME ROAD': ["THE REUNION", "THE SILO", "THE JOB", "THE LAUNCH", "THE DIVIDE", "THE TUNNELERS", "THE COURIER", "THE END", "THE APOCALYPSE"]
         }
+    };
 
-        if (document.getElementById('b-special-grid').innerHTML === "") {
-            document.getElementById('b-special-grid').innerHTML = bhSpecial.map(n => `<div class="dual-row"><input type="checkbox"><span>${n}</span></div>`).join('');
-            document.getElementById('b-skill-grid').innerHTML = bhSkills.map(n => `<div class="dual-row"><input type="checkbox"><span>${n}</span></div>`).join('');
-            document.getElementById('s-grid-left').innerHTML = sg.slice(0, 4).map(n => `<div class="dual-row"><input type="checkbox"><span>${n}</span></div>`).join('');
-            document.getElementById('s-grid-right').innerHTML = sg.slice(4).map(n => `<div class="dual-row"><input type="checkbox"><span>${n}</span></div>`).join('');
+    function setMode(m, skip=false) {
+        mode = m; document.body.classList.toggle('mode-hc', m==='hc');
+        document.getElementById('hc-banner').style.display = m==='hc' ? 'flex' : 'none';
+        document.getElementById('sysop-note').style.display = m==='hc' ? 'block' : 'none';
+        document.getElementById('m-std').classList.toggle('active', m==='std');
+        document.getElementById('m-hc').classList.toggle('active', m==='hc');
+        renderProgression(); updateAll();
+        if(!skip) triggerAutosave();
+    }
+
+    function setOrigin(o, skip=false) {
+        origin = o; document.body.className = (o === 'MW') ? 'theme-mw' : 'theme-cw';
+        if(mode==='hc') document.body.classList.add('mode-hc');
+        document.getElementById('btn-cw').classList.toggle('active', o==='CW');
+        document.getElementById('btn-mw').classList.toggle('active', o==='MW');
+        renderQuests(); renderCollectibles(); updateAll();
+        if(!skip) triggerAutosave();
+    }
+
+    function renderQuests() {
+        const div = document.getElementById('quest-list-container'); div.innerHTML = '';
+        for (const cat in questsData[origin]) {
+            const safe = cat.replace(/\s+/g, '-').toLowerCase();
+            let h = `<div class="quest-header-row" id="h-${safe}"><h2>${cat}</h2><span class="cat-pct" id="pct-${safe}">0%</span></div><div class="grid-tidy" data-category="${safe}">`;
+            questsData[origin][cat].forEach(q => { h += `<div class="grid-item"><input type="checkbox" onchange="calcCat('${safe}'); triggerAutosave();"><span>${q}</span></div>`; });
+            div.insertAdjacentHTML('beforeend', h + `</div>`);
         }
     }
+
+    function calcCat(id) {
+        const g = document.querySelector(`.grid-tidy[data-category="${id}"]`);
+        if(!g) return;
+        const checks = Array.from(g.querySelectorAll('input[type="checkbox"]'));
+        const pct = Math.round((checks.filter(c => c.checked).length / checks.length) * 100);
+        document.getElementById(`pct-${id}`).innerText = pct === 100 ? "DONE" : pct + "%";
+        document.getElementById(`h-${id}`).classList.toggle('completed', pct === 100);
+    }
+
+    function renderCollectibles() {
+        const div = document.getElementById('coll-list'); div.innerHTML = ''; 
+        if(origin === 'CW') {
+            div.innerHTML = `<h2>BOBBLEHEADS: S.P.E.C.I.A.L.</h2><div class="grid-tidy">${sKeys.map(s=>`<div class="grid-item"><input type="checkbox" onchange="triggerAutosave()"><span>${s}</span></div>`).join('')}</div>
+                             <h2>BOBBLEHEADS: SKILLS</h2><div class="grid-tidy">${skills.map(s=>`<div class="grid-item"><input type="checkbox" onchange="triggerAutosave()"><span>${s}</span></div>`).join('')}</div>`;
+        } else {
+            div.innerHTML = `<h2>SNOWGLOBES: BASE GAME</h2><div class="grid-tidy">${["GOODSPRINGS","STRIP","HOOVER DAM","MT. CHARLESTON","NELLIS","MORMON FORT","TEST SITE"].map(s=>`<div class="grid-item"><input type="checkbox" onchange="triggerAutosave()"><span>${s}</span></div>`).join('')}</div>
+                             <h2>SNOWGLOBES: DLC</h2><div class="grid-tidy">${["SIERRA MADRE","ZION","BIG MT","THE DIVIDE"].map(s=>`<div class="grid-item"><input type="checkbox" onchange="triggerAutosave()"><span>${s}</span></div>`).join('')}</div>`;
+        }
+    }
+
+    function updateAll() {
+        const pool = (mode === 'hc' ? 30 : 33);
+        const rem = pool - (Object.values(special).reduce((a,b)=>a+b,0) - 7);
+        document.getElementById('pts-left').innerText = rem;
+        document.getElementById('special-list').innerHTML = sKeys.map(k => `
+            <div class="special-row"><span>${k}</span>
+            <div class="special-controls"><button class="special-btn" onclick="mod('${k}',-1)" ${special[k]<=1?'disabled':''}>-</button>
+            <b>${special[k]}</b><button class="special-btn" onclick="mod('${k}',1)" ${rem<=0 || special[k]>=10?'disabled':''}>+</button></div></div>`).join('');
+
+        document.getElementById('ov-name').innerText = (document.getElementById('char-name').value || "NO_ID").toUpperCase();
+        document.getElementById('ov-spec').innerHTML = sKeys.map(k => `<div><div style="font-size:0.6rem;">${k}</div><b>${special[k]}</b></div>`).join('');
+        document.getElementById('ov-tags').innerHTML = Array.from(document.querySelectorAll('#tag-area input:checked')).map(c => `<div class="ov-entry"><span>${c.nextElementSibling.innerText}</span></div>`).join('') || "NONE";
+        document.getElementById('ov-traits').innerHTML = Array.from(document.querySelectorAll('#trait-list input')).map(i => i.value ? `<div class="ov-entry"><span>• ${i.value}</span></div>` : '').join('') || "NONE";
+        
+        document.getElementById('ov-perks').innerHTML = Array.from(document.querySelectorAll('#prog-list .prog-row')).map(r => {
+            const lvl = r.querySelector('.lvl-tag').innerText;
+            const val = r.querySelector('input:first-of-type').value;
+            return val ? `<div class="ov-entry"><span>${val}</span><span style="opacity:0.6;">${lvl}</span></div>` : '';
+        }).join('') + Array.from(document.querySelectorAll('#extra-perk-list .prog-row')).map(r => {
+            const val = r.querySelector('input:first-of-type').value;
+            return val ? `<div class="ov-entry"><span>${val}</span><span style="opacity:0.6;">BONUS</span></div>` : '';
+        }).join('');
+
+        let gearHTML = Array.from(document.querySelectorAll('#weapon-list .gear-card')).map(c => {
+            const n = c.querySelector('input[placeholder="WEAPON NAME..."]').value;
+            const a = c.querySelector('input[placeholder="AMMO TYPE..."]').value;
+            return n ? `<div class="ov-entry"><span>⚔ ${n}</span><span style="opacity:0.6;">${a}</span></div>` : '';
+        }).join('');
+        gearHTML += Array.from(document.querySelectorAll('#armor-list .gear-card')).map(c => {
+            const n = c.querySelector('input[placeholder="APPAREL NAME..."]').value;
+            const w = c.querySelector('select').value;
+            return n ? `<div class="ov-entry"><span>🛡 ${n}</span><span style="opacity:0.6;">${w}</span></div>` : '';
+        }).join('');
+        document.getElementById('ov-gear').innerHTML = gearHTML || "EMPTY";
+
+        syncTagLimit();
+        triggerAutosave();
+    }
+
+    function mod(k, v) { special[k] += v; updateAll(); triggerAutosave(); }
+    function addTrait() { document.getElementById('trait-list').insertAdjacentHTML('beforeend', `<div style="display:flex; margin-bottom:2px;"><input type="text" style="flex:1; background:transparent; border:none; border-bottom:1px solid #444; color:#fff;" placeholder="TRAIT NAME..."><button onclick="this.parentElement.remove();updateAll()" style="color:red; background:none; border:none; cursor:pointer;">X</button></div>`); updateAll(); }
+    function addWeapon() { document.getElementById('weapon-list').insertAdjacentHTML('beforeend', `<div class="gear-card"><input type="text" placeholder="WEAPON NAME..."><input type="text" placeholder="LOCATION..."><input type="text" placeholder="AMMO TYPE..."><button onclick="this.parentElement.remove();updateAll()" style="position:absolute; right:5px; top:5px; color:red; background:none; border:none; cursor:pointer;">X</button></div>`); }
+    function addArmor() { document.getElementById('armor-list').insertAdjacentHTML('beforeend', `<div class="gear-card"><input type="text" placeholder="APPAREL NAME..."><input type="text" placeholder="LOCATION..."><select><option>LIGHT</option><option>MEDIUM</option><option>HEAVY</option><option>POWER ARMOR</option></select><button onclick="this.parentElement.remove();updateAll()" style="position:absolute; right:5px; top:5px; color:red; background:none; border:none; cursor:pointer;">X</button></div>`); }
+    function addExtraPerk() { document.getElementById('extra-perk-list').insertAdjacentHTML('beforeend', `<div class="prog-row"><button onclick="this.parentElement.remove();updateAll()" style="position:absolute; right:2px; top:2px; color:red; background:none; border:none; cursor:pointer; font-size:10px;">X</button><div class="lvl-tag">BONUS</div><input type="text" placeholder="PERK NAME..."><input type="text" style="border-top:1px solid #222;" placeholder="SOURCE..."></div>`); }
 
     function renderProgression() {
-        const left = document.getElementById('prog-left');
-        const right = document.getElementById('prog-right');
-        const step = (mode === 'std') ? 2 : 3;
-        const traitLevels = [5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49, 53, 57];
-
-        const buildCols = (start, end, container) => {
-            container.innerHTML = '';
-            for (let i = start; i <= end; i++) {
-                let row = '';
-                if (i % step === 0) row += `<div class="prog-row"><div>${i}</div><div class="tag-p">PERK</div><input type="text"><input type="text"></div>`;
-                if (traitLevels.includes(i)) row += `<div class="prog-row"><div>${i}</div><div class="tag-t">TRAIT</div><input type="text"><input type="text"></div>`;
-                if (row !== '') container.innerHTML += row;
-            }
-        };
-        buildCols(2, 30, left);
-        buildCols(31, 60, right);
+        const div = document.getElementById('prog-list'); div.innerHTML = '';
+        for(let i=2; i<=30; i++) {
+            const isP = mode === 'std' ? (i%2===0) : (i%3===0);
+            const isT = (i>=5 && (i-5)%4===0);
+            if(isP || isT) div.insertAdjacentHTML('beforeend', `<div class="prog-row"><div class="lvl-tag">LVL ${i} ${isT?'TRAIT':'PERK'}</div><input type="text" placeholder="NAME..."><input type="text" style="border-top:1px solid #222; color:#888; font-size:0.6rem;" placeholder="REQUIREMENTS / NOTES..."></div>`);
+        }
     }
 
-    function mod(s, v) {
-        const limit = mode === 'std' ? 40 : 37;
-        const used = Object.values(special).reduce((a,b)=>a+b,0);
-        if(v > 0 && used >= limit) return;
-        if(v < 0 && special[s] <= 1) return;
-        special[s] += v; updateUI();
-    }
-
-    function addWeapon() {
-        const div = document.createElement('div');
-        div.className = 'gear-card';
-        div.innerHTML = `<button style="position:absolute; top:2px; right:2px; background:red; border:none; color:white; cursor:pointer;" onclick="this.parentElement.remove()">X</button>
-                         <input type="text" placeholder="WEAPON NAME">
-                         <input type="text" placeholder="AMMO TYPE">
-                         <input type="text" placeholder="LOCATION FOUND">`;
-        document.getElementById('weapon-list').appendChild(div);
-    }
-
-    function addArmor() {
-        const div = document.createElement('div');
-        div.className = 'gear-card';
-        div.innerHTML = `<button style="position:absolute; top:2px; right:2px; background:red; border:none; color:white; cursor:pointer;" onclick="this.parentElement.remove()">X</button>
-                         <input type="text" placeholder="APPAREL NAME">
-                         <input type="text" placeholder="WEIGHT CLASS">
-                         <input type="text" placeholder="LOCATION FOUND">`;
-        document.getElementById('armor-list').appendChild(div);
-    }
-
-    function addStartingTrait() {
-        const list = document.getElementById('trait-list');
-        if (mode === 'hc' && list.children.length >= 5) return;
-        const div = document.createElement('div');
-        div.style.display = 'flex'; div.style.marginBottom = '4px';
-        div.innerHTML = `<input type="text" style="flex:1" placeholder="TRAIT">
-                         <button style="color:red; border:none; background:none; cursor:pointer;" onclick="this.parentElement.remove(); checkTraitBtn()">X</button>`;
-        list.appendChild(div);
-        checkTraitBtn();
-    }
-
-    function checkTraitBtn() {
-        const list = document.getElementById('trait-list');
-        document.getElementById('add-trait-btn').disabled = (mode === 'hc' && list.children.length >= 5);
-    }
-
-    function handleSkill(cb) {
-        const tagged = document.querySelectorAll('#tag-area input:checked');
-        document.querySelectorAll('#tag-area input').forEach(input => {
-            input.parentElement.classList.toggle('tagged', input.checked);
-            if (!input.checked) input.disabled = tagged.length >= 3;
+    function syncTagLimit() {
+        const cbs = Array.from(document.querySelectorAll('#tag-area input'));
+        const count = cbs.filter(c => c.checked).length;
+        cbs.forEach(c => {
+            if(!c.checked && count >= 3) { c.disabled = true; c.parentElement.classList.add('locked'); }
+            else { c.disabled = false; c.parentElement.classList.remove('locked'); }
         });
-        document.getElementById('tag-count').innerText = tagged.length;
+        document.getElementById('add-trait-btn').disabled = (mode==='hc' && document.getElementById('trait-list').children.length>=5);
     }
 
-    function showTab(t) {
-        document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-        document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active'));
-        document.getElementById('tab-' + t).style.display = 'block';
-        document.getElementById('tab-btn-' + t).classList.add('active');
+    function triggerAutosave() {
+        const data = collectData();
+        localStorage.setItem('sunset_stable_baseline_v1', JSON.stringify(data));
+        document.getElementById('sync-status').innerText = "SYNCED_" + new Date().toLocaleTimeString();
     }
 
-    function systemWipe() {
-        if (confirm("☢ FACTORY RESET INITIATED. WIPE ALL DATA?")) location.reload();
-    }
-
-    function saveBuild() {
-        const data = { special, name: document.getElementById('char-name').value, origin, mode };
-        const blob = new Blob([JSON.stringify(data)], {type: 'application/json'});
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `${data.name || 'vault_export'}.json`;
-        a.click();
-    }
-
-    function loadBuild(e) {
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-            const data = JSON.parse(ev.target.result);
-            special = data.special;
-            document.getElementById('char-name').value = data.name;
-            setOrigin(data.origin);
-            setMode(data.mode);
+    function collectData() {
+        return {
+            name: document.getElementById('char-name').value, special, mode, origin,
+            notes: document.getElementById('user-notes').value,
+            tags: Array.from(document.querySelectorAll('#tag-area input')).map(i => i.checked),
+            traits: Array.from(document.querySelectorAll('#trait-list input')).map(i => i.value),
+            perks: Array.from(document.querySelectorAll('#prog-list .prog-row')).map(r => Array.from(r.querySelectorAll('input')).map(i => i.value)),
+            extraPerks: Array.from(document.querySelectorAll('#extra-perk-list .prog-row')).map(r => Array.from(r.querySelectorAll('input')).map(i => i.value)),
+            weapons: Array.from(document.querySelectorAll('#weapon-list .gear-card')).map(c => Array.from(c.querySelectorAll('input')).map(i => i.value)),
+            armor: Array.from(document.querySelectorAll('#armor-list .gear-card')).map(c => [c.querySelector('input[placeholder="APPAREL NAME..."]').value, c.querySelector('input[placeholder="LOCATION..."]').value, c.querySelector('select').value]),
+            quests: Array.from(document.querySelectorAll('#quest-list-container input')).map(i => i.checked),
+            colls: Array.from(document.querySelectorAll('#coll-list input')).map(i => i.checked)
         };
+    }
+
+    function exportJSON() {
+        const data = collectData();
+        const blob = new Blob([JSON.stringify(data, null, 2)], {type: 'application/json'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${data.name || 'dweller'}.json`; a.click();
+    }
+
+    function importJSON(e) {
+        const reader = new FileReader();
+        reader.onload = (ev) => hydrate(JSON.parse(ev.target.result));
         reader.readAsText(e.target.files[0]);
     }
 
-    window.onload = () => { renderProgression(); updateUI(); };
+    function hydrate(d) {
+        special = d.special; document.getElementById('char-name').value = d.name || "";
+        document.getElementById('user-notes').value = d.notes || "";
+        setMode(d.mode, true); setOrigin(d.origin, true);
+        const tI = document.querySelectorAll('#tag-area input'); d.tags.forEach((c, i) => { if(tI[i]) tI[i].checked = c; });
+        document.getElementById('trait-list').innerHTML = ''; d.traits.forEach(v => { if(v) { addTrait(); document.querySelector('#trait-list div:last-child input').value = v; }});
+        document.getElementById('weapon-list').innerHTML = ''; d.weapons.forEach(v => { addWeapon(); const i = document.querySelectorAll('#weapon-list .gear-card:last-child input'); i[0].value = v[0]; i[1].value = v[1]; i[2].value = v[2]; });
+        document.getElementById('armor-list').innerHTML = ''; d.armor.forEach(v => { addArmor(); const c = document.querySelector('#armor-list .gear-card:last-child'); c.querySelector('input[placeholder="APPAREL NAME..."]').value = v[0]; c.querySelector('input[placeholder="LOCATION..."]').value = v[1]; c.querySelector('select').value = v[2]; });
+        const pI = document.querySelectorAll('#prog-list .prog-row'); d.perks.forEach((v, i) => { if(pI[i]) { const ins = pI[i].querySelectorAll('input'); ins[0].value = v[0]; ins[1].value = v[1]; }});
+        const qC = document.querySelectorAll('#quest-list-container input'); d.quests.forEach((c, i) => { if(qC[i]) qC[i].checked = c; });
+        const cC = document.querySelectorAll('#coll-list input'); d.colls.forEach((c, i) => { if(cC[i]) cC[i].checked = c; });
+        updateAll();
+    }
+
+    function showTab(t) { document.querySelectorAll('.tab-content').forEach(c => c.style.display='none'); document.querySelectorAll('.tab-nav button').forEach(b => b.classList.remove('active')); document.getElementById('tab-'+t).style.display='block'; document.getElementById('tab-btn-'+t).classList.add('active'); }
+    function purgeMemory() { if(confirm("ERASE LOCAL STORAGE?")) { localStorage.clear(); location.reload(); } }
+
+    window.onload = () => {
+        document.getElementById('tag-area').innerHTML = skills.map(s => `<div class="grid-item"><input type="checkbox"><span>${s}</span></div>`).join('');
+        setMode('std', true); setOrigin('CW', true);
+        const saved = localStorage.getItem('sunset_stable_baseline_v1');
+        if (saved) hydrate(JSON.parse(saved));
+    };
 </script>
 </body>
 </html>
