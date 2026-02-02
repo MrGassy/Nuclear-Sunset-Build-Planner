@@ -1,0 +1,179 @@
+/* --- CORE VISUAL VARIABLES --- */
+/* You can change these hex codes to adjust the primary Pip-Boy colors */
+:root { 
+    --pip-color: #28ff28; 
+    --pip-bg: #050f05; 
+    --pip-border: #28ff28; 
+    --danger-red: #ff4444; 
+    --font-main: 'Courier New', Courier, monospace;
+}
+
+/* --- THEME OVERRIDES --- */
+body.theme-cw:not(.mode-hc) { --pip-color: #28ff28; --pip-border: #1a441a; --pip-bg: #050f05; }
+body.theme-mw:not(.mode-hc) { --pip-color: #ffb642; --pip-border: #44331a; --pip-bg: #0f0a05; }
+
+/* --- HARDERCORE MODE STYLES --- */
+body.mode-hc { 
+    --pip-color: var(--danger-red); 
+    --pip-border: #800; --pip-bg: #000; background-color: #000;
+    animation: warningPulse 6s infinite ease-in-out;
+    overflow: hidden;
+}
+
+/* --- GLOBAL STYLING --- */
+* { text-transform: uppercase !important; box-sizing: border-box; }
+
+@keyframes warningPulse {
+    0%, 100% { box-shadow: inset 0 0 50px rgba(255, 0, 0, 0); }
+    50% { box-shadow: inset 0 0 80px rgba(255, 0, 0, 0.15); }
+}
+
+body { 
+    background-color: #0a0a0a; color: var(--pip-color); 
+    font-family: var(--font-main); margin: 0; 
+    overflow: hidden; height: 100vh; font-size: 13px; 
+}
+
+/* --- INPUTS & BUTTONS --- */
+input, button, select, textarea { 
+    font-family: var(--font-main) !important; 
+    background: transparent; color: var(--pip-color);
+    border: none; border-bottom: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.2s ease;
+}
+input:focus, textarea:focus { 
+    outline: none; border-bottom-color: var(--pip-color); 
+    background: rgba(255,255,255,0.05);
+}
+select option { background: #000; color: var(--pip-color); }
+
+/* --- LAYOUT WRAPPER --- */
+.wrapper { 
+    display: grid; 
+    grid-template-columns: 380px 1fr 360px; 
+    grid-template-rows: auto 1fr; 
+    height: 100vh; 
+    gap: 15px; 
+    padding: 15px; 
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+/* This kicks in when the screen width is 1000px or less */
+@media (max-width: 1000px) {
+    body { overflow-y: auto; height: auto; }
+    .wrapper { 
+        display: flex; 
+        flex-direction: column; 
+        height: auto; 
+    }
+    section { height: auto; max-height: none; overflow: visible; }
+    .scroll-v { height: auto; max-height: 400px; overflow-y: auto; }
+}
+
+header { grid-column: 1 / span 3; border: 2px solid var(--pip-color); padding: 15px; background: var(--pip-bg); }
+
+.hc-alert-bar { 
+    display: none; justify-content: center; border: 2px solid var(--danger-red); 
+    background: rgba(128, 0, 0, 0.3); padding: 6px; margin-bottom: 10px; 
+    animation: blink 1s infinite; font-weight: bold; 
+}
+@keyframes blink { 50% { opacity: 0.5; } }
+
+.header-controls { display: flex; justify-content: space-between; align-items: center; gap: 40px; }
+.os-title { font-weight: bold; font-size: 1.5rem; letter-spacing: 2px; flex-shrink: 0; }
+
+.settings-block { display: flex; gap: 20px; align-items: center; flex-grow: 1; justify-content: flex-end; }
+.toggle-group { display: flex; border: 1px solid var(--pip-color); }
+.toggle-group button { border: none; padding: 6px 12px; cursor: pointer; font-size: 0.7rem; color: var(--pip-color); }
+.toggle-group button.active { background: var(--pip-color) !important; color: black !important; }
+
+.nuke-btn { 
+    border: 1px solid var(--pip-color); color: var(--pip-color); padding: 5px 12px; 
+    cursor: pointer; font-size: 1.2rem; transition: all 0.2s; 
+}
+.nuke-btn:hover { border-color: red; color: red; box-shadow: 0 0 10px rgba(255, 0, 0, 0.5); }
+
+section { border: 2px solid var(--pip-border); background: var(--pip-bg); padding: 18px; overflow: hidden; display: flex; flex-direction: column; }
+.scroll-v { overflow-y: auto; flex-grow: 1; padding-right: 5px; }
+
+/* --- COMPONENTS --- */
+.header-row { 
+    display: flex; justify-content: space-between; align-items: center; 
+    background: rgba(255,255,255,0.1); margin: 15px 0 10px; padding: 6px 12px; 
+    font-weight: bold; border: 1px solid var(--pip-border); 
+    cursor: pointer; transition: 0.2s; user-select: none;
+}
+.header-row:hover { background: rgba(255,255,255,0.2); }
+.header-row.completed { background: var(--pip-color); color: black; box-shadow: 0 0 15px var(--pip-color); }
+.header-row h2 { background: none; color: inherit; margin: 0; padding: 0; border: none; font-size: 0.8rem; pointer-events: none; }
+
+h2 { background: var(--pip-color); color: black; font-size: 0.8rem; text-align: center; margin: 15px 0 10px; padding: 4px; font-weight: bold; }
+
+.grid-tidy { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.grid-item { display: flex; align-items: center; gap: 8px; padding: 5px; border: 1px solid rgba(255,255,255,0.05); font-size: 0.7rem; }
+.grid-item span a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--pip-color); }
+.grid-item span a:hover { background: var(--pip-color); color: black; }
+.locked { opacity: 0.3; pointer-events: none; }
+
+.tab-nav { display: flex; gap: 5px; margin-bottom: 10px; }
+.tab-nav button { flex: 1; padding: 8px; background: rgba(255,255,255,0.05); color: var(--pip-color); border: 1px solid var(--pip-border); cursor: pointer; font-size: 0.7rem; font-weight: bold; }
+.tab-nav button.active { background: var(--pip-color); color: black; }
+
+/* --- OVERVIEW & GRID UTILITIES --- */
+/* Helper class for the Overview tab layout */
+.ov-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+/* Helper class for the Gear/Apparel split */
+.gear-split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+/* On mobile, stack these grids as well */
+@media (max-width: 1000px) {
+    .ov-grid, .gear-split-grid { grid-template-columns: 1fr; }
+}
+
+.ov-card { border: 1px solid var(--pip-border); padding: 10px; background: rgba(255,255,255,0.02); margin-bottom: 10px; }
+.ov-sub { font-weight: bold; border-bottom: 1px solid #333; margin-bottom: 5px; font-size: 0.75rem; display: block; }
+.ov-entry { font-size: 0.7rem; padding: 2px 0; display: flex; justify-content: space-between; }
+
+/* --- PROGRESSION TAB STYLES --- */
+.prog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+@media (max-width: 1000px) { .prog-grid { grid-template-columns: 1fr; } }
+
+.prog-row { 
+    display: flex; flex-direction: column; margin-bottom: 5px; 
+    background: rgba(255,255,255,0.03); 
+    border: 1px solid rgba(255,255,255,0.1); 
+    border-left: 4px solid var(--pip-color); 
+    position: relative; padding: 8px; 
+    transition: all 0.2s ease;
+}
+.prog-row:focus-within {
+    background: rgba(255,255,255,0.08);
+    border-color: var(--pip-color);
+    box-shadow: 0 0 10px rgba(40, 255, 40, 0.1);
+}
+.lvl-tag { 
+    background: rgba(255,255,255,0.1); padding: 2px 6px; 
+    font-weight: bold; font-size: 0.65rem; align-self: flex-start; margin-bottom: 4px;
+}
+.prog-row input:first-of-type {
+    font-size: 1.1rem; font-weight: bold; color: var(--pip-color);
+    margin-bottom: 4px; border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+.prog-row input:last-of-type {
+    font-size: 0.85rem; color: rgba(255,255,255,0.7); font-style: italic; border-bottom: none;
+}
+
+.gear-card { border: 1px solid rgba(255,255,255,0.1); padding: 10px; margin-bottom: 10px; background: rgba(255,255,255,0.02); position: relative; }
+.action-btn { width: 100%; height: 35px; border: 1px solid var(--pip-color); color: var(--pip-color); cursor: pointer; font-weight: bold; margin-bottom: 10px; background: rgba(255,255,255,0.05); }
+.action-btn:hover { background: var(--pip-color); color: black; }
+
+.pip-search { width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--pip-border); color: var(--pip-color); padding: 10px; margin-bottom: 10px; font-size: 0.9rem; font-weight: bold; }
+
+.sticky-note { display: none; background: #ffff88; color: #000; padding: 10px; transform: rotate(-1.5deg); border: 1px solid #ccc; font-size: 0.65rem; margin-bottom: 10px; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); font-weight: bold; text-transform: none !important; }
+.credits-box { font-size: 0.7rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; margin-top: 10px; }
+#user-notes { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--pip-border); padding: 12px; font-size: 0.9rem; resize: none; line-height: 1.4; }
+
+.special-row { display: grid; grid-template-columns: 1fr 100px; align-items: center; margin-bottom: 6px; padding: 4px 0; border-bottom: 1px dotted rgba(255,255,255,0.1); }
+.special-controls { display: grid; grid-template-columns: 30px 40px 30px; align-items: center; text-align: center; }
+.special-btn { background: none; border: 1px solid var(--pip-color); color: var(--pip-color); width: 28px; height: 28px; cursor: pointer; font-weight: bold; }
+.special-btn:hover:not(:disabled) { background: var(--pip-color); color: black; }
